@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PDFDropper from './PDFDropper'; // Assuming you have this component
 
-const Form = () => {
+const Form = ({currentSection}) => {
   const [inputType, setInputType] = useState('');
   const [pdfInput, setPdfInput] = useState('');
   const [videoInput, setVideoInput] = useState('');

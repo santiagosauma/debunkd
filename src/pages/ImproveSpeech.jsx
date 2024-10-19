@@ -6,12 +6,12 @@ const ImproveSpeech = () => {
   return (
     <div>
       <div className="header-container">
-      <h1 className="header-title">Debunk Videos, PDFs or Text</h1>
+      <h1 className="header-title">Improve speech from Videos, PDFs or Text</h1>
       <p className="header-subtitle">
         Just select the option you want and continue the truth
       </p>
     </div>
-      <Form/>
+      <Form currentSection = {"Debunker"}/>
     </div>
   );
 };
