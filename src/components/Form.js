@@ -56,7 +56,7 @@ const Form = () => {
   const searchBarStyle = {
     padding: '15px',
     fontSize: '18px',
-    width: '300px',
+    width: '730px',
     maxWidth: '80%',
     borderRadius: '10px',
     border: '2px solid #aaa',
