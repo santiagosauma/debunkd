@@ -1,4 +1,4 @@
-// src/components/NavBar.js
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/NavBar.css';

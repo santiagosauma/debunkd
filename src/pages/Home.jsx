@@ -1,13 +1,13 @@
-// src/pages/Home.js
+// src/pages/HomePage.js
 import React from 'react';
+import InfoHomePage from '../components/InfoHomePage';
 
-const Home = () => {
+const HomePage = () => {
   return (
     <div>
-      <h1>Welcome to Debunked</h1>
-      <p>This is the home page. Explore our features!</p>
+      <InfoHomePage />
     </div>
   );
 };
 
-export default Home;
+export default HomePage;
