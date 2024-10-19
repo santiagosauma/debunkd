@@ -35,12 +35,6 @@ def detect_fallacies_route():
 @app.route('/getKeyWords', methods=['POST'])
 def get_keywords_route():
     try:
-        #data = request.get_json()
-        #text = data.get('text', "")
-        #fallacies = detect_fallacies(text)
-        #return jsonify({'fallacies': fallacies})
-
-
         data = request.get_json()
         text = data.get('text', "")
         keywords = getKeyWords.getKeyWords(text)
@@ -50,5 +44,31 @@ def get_keywords_route():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
     
+@app.route('/howToImprove', methods=['POST'])
+def how_to_improve_route():
+    try:
+        data = request.get_json()
+        text = data.get('text', "")
+        howToImprove = """This is our advice on how to improve first you have to: Sed ut 
+perspiciatis unde omnis iste natus error sit voluptatem accusantium 
+doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore 
+veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam 
+voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia con"""
+        
+      
+        return jsonify({'howToImprove': howToImprove})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+    
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+
+
+
+#
+#
+#
+#
+#
+#
+#
