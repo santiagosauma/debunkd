@@ -75,7 +75,7 @@ def getKeyWords(text) :
     text = remove_unmeaninful(text)
     text = text.replace("\n", " ")
     words = text.split(" ")
-                        
+    return words        
     for word in words:
         if word in ocurrences:
             ocurrences[word] = ocurrences[word] + 1
