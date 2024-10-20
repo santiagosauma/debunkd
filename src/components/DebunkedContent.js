@@ -53,6 +53,7 @@ const buttonStyle = {
 ];*/
 
 const DebunkedContent = ({setShowResult, textInput, pdfInput, videoInput, inputType}) => {
+  console.log("got here")
   const [statementsData, setStatementsData] = useState([])
   const [openStatements, setOpenStatements] = useState(
     Array(statementsData.length).fill(false) // Initialize all statements as closed
@@ -75,6 +76,8 @@ const handleGetAnswerFromVideo = () =>{
   })
     .then((response) => response.json())
     .then((response) => {
+      console.log("this is the fetched data")
+      console.log(response.dangerousStatements)
       setStatementsData(response.dangerousStatementsVideo);
       setOpenStatements(Array(response.dangerousStatementsVideo.length).fill(false));
       console.log(response.dangerousStatementsVideo)
