@@ -71,8 +71,8 @@ def convert_to_text():
         data = request.get_json()
         text = data.get('text', "") 
         transcript = getTranscript.getTrans(text)
-      
-        return jsonify({'convertToText': transcript})
+        howToImprove = generate_recommendations(transcript)
+        return jsonify({'convertToText': howToImprove})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
     

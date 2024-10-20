@@ -9,6 +9,30 @@ import { useEffect } from 'react';
 const ImproveSpeechContent = ({ markdownContent, setShowResult, textInput, pdfInput, videoInput, inputType}) => {
 
   const [contentToShow, setContentToShow] = useState("")
+
+  const handleGetAnswerFromVideo = () => {
+    const url = "http://localhost:5000/convertToText";
+        var text = videoInput
+        const jsonData = JSON.stringify({ text });
+
+        // Enviar el texto al backend Flask
+        fetch(url, {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: jsonData,
+        })
+        .then((response) => response.json())
+        .then((response) => {
+            setContentToShow(response.convertToText);
+            console.log(response.convertToText)
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+  }
   const handleDetectClick = () => {
     const url = "http://localhost:5000/howToImprove";
     //const text = "hola como estas"
@@ -18,6 +42,8 @@ const ImproveSpeechContent = ({ markdownContent, setShowResult, textInput, pdfIn
     }
     else if(inputType === "Video"){
         text = videoInput;
+        handleGetAnswerFromVideo()
+        return
     }
     else {
         text = pdfInput;
