@@ -7,7 +7,7 @@ python-dotenv==1.0.0
 requests
 beautifulsoup4
 youtube-transcript-api
-twikit 
-pandas
+selenium==4.25.0
+webdriver_manager==4.0.2
 langchain-core==0.3.12
 langchain-google-genai==2.0.1
