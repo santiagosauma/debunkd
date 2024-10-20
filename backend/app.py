@@ -126,7 +126,7 @@ def convert_to_text():
         return jsonify({'error': str(e)}), 400
     
 @app.route('/dangerousStatements', methods=['POST'])
-def convert_to_text():
+def dangerous_statements_route():
     try:
         data = request.get_json()
         text = data.get('text', "") 
