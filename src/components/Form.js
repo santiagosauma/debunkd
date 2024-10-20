@@ -3,6 +3,8 @@ import PDFDropper from './PDFDropper';
 import ImproveSpeechContent from './ImproveSpeechContent';
 import DebunkedContent from './DebunkedContent';
 import '../styles/Form.css';
+import MyWordCloud from './WordCloud';
+import { div } from 'framer-motion/client';
 
 const Form = ({ currentSection }) => {
   const [inputType, setInputType] = useState('');
@@ -15,6 +17,7 @@ const Form = ({ currentSection }) => {
   const handleVideoInputChange = (e) => setVideoInput(e.target.value);
 
   const handleSubmit = () => setShowResult(true);
+
 
   return (
     <div className="form-container">
@@ -75,13 +78,24 @@ const Form = ({ currentSection }) => {
         />
       )}
 
-      {showResult && currentSection === 'Debunker' && (
+    {showResult && currentSection === 'Debunker' && (
+      <div>
         <DebunkedContent
           setShowResult={setShowResult}
           textInput={textInput}
+          pdfInput={pdfInput}
+          videoInput={videoInput}
           inputType={inputType}
         />
-      )}
+        <MyWordCloud 
+             setShowResult={setShowResult}
+             textInput={textInput}
+             pdfInput={pdfInput}
+             videoInput={videoInput}
+             inputType={inputType}/>
+      </div>
+    )}
+      
     </div>
   );
 };

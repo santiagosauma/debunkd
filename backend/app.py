@@ -140,6 +140,9 @@ def dangerous_statements_route():
         data = request.get_json()
         text = data.get('text', "")
         dangerousStatements = generate_debunk_response(text)
+        app.logger.info('testing info log')
+        app.logger.info(dangerousStatements)
+        app.logger.info(statements_data)
         return jsonify({'dangerousStatements': dangerousStatements})
     except Exception as e:
         return jsonify({'error': str(e)}), 400

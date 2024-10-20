@@ -5,6 +5,21 @@ import { useEffect } from 'react';
 const MyWordCloud = ({ text }) => {
 
   const [fallacies, setFallacies] = useState([]);
+  function getTextFromInput(inputType, textInput, videoInput, pdfInput) {
+    let text = "";
+
+    if (inputType === "Text") {
+        text = textInput;
+    } else if (inputType === "Video") {
+        text = videoInput;
+    } else {
+        text = pdfInput;
+    }
+    console.log("Este es el texto");
+    console.log(text);
+    return text;
+}
+
   // Function to generate word frequency from the input string
   const generateWordCloudData = (fallacies) => {
     const wordsArray = fallacies.map(str => str.toLowerCase());
