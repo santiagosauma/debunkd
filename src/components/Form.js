@@ -87,6 +87,7 @@ const Form = ({ currentSection }) => {
           videoInput={videoInput}
           inputType={inputType}
         />
+
         <MyWordCloud 
              setShowResult={setShowResult}
              textInput={textInput}
@@ -101,3 +102,11 @@ const Form = ({ currentSection }) => {
 };
 
 export default Form;
+
+/*        <MyWordCloud 
+setShowResult={setShowResult}
+textInput={textInput}
+pdfInput={pdfInput}
+videoInput={videoInput}
+inputType={inputType}/>
+*/
