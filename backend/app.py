@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import re
 
+from improvement import generate_recommendations
+
 from scripts import getKeyWords
 
 app = Flask(__name__)
@@ -55,6 +57,7 @@ doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
 veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam 
 voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia con"""
         
+        howToImprove = generate_recommendations(text)
       
         return jsonify({'howToImprove': howToImprove})
     except Exception as e:
