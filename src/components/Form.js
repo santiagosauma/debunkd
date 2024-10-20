@@ -1,62 +1,135 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import PDFDropper from './PDFDropper'; // Assuming you have this component
 
-const Form = () => {
-  const [text, setText] = useState("");
-  const [fallacies, setFallacies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+const Form = ({currentSection}) => {
+  const [inputType, setInputType] = useState('');
+  const [pdfInput, setPdfInput] = useState('');
+  const [videoInput, setVideoInput] = useState('');
+  const [textInput, setTextInput] = useState('');
 
-  const handleChange = (event) => {
-    setText(event.target.value);
+  const handleVideoInputChange = (e) => {
+    setVideoInput(e.target.value);
   };
 
-  const handleDetectClick = () => {
-    const url = "http://localhost:5000/detect_fallacies";
-    setIsLoading(true);
-    const jsonData = JSON.stringify({ text });
+  const handleTextInputChange = (e) => {
+    setTextInput(e.target.value);
+  };
 
-    // Enviar el texto al backend Flask
-    fetch(url, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: jsonData,
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        setFallacies(response.fallacies);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setIsLoading(false);
-      });
+  const buttonStyle = {
+    backgroundColor: '#d3d3d3',
+    border: 'none',
+    padding: '15px 25px',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    borderRadius: '5px',
+    margin: '0 10px',
+    width: '200px',
+  };
+
+  const containerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
+  };
+
+  const buttonContainerStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '20px',
+  };
+
+  const textAreaStyle = {
+    width: '580px',
+    maxWidth: '800px',
+    height: '230px',
+    padding: '15px',
+    fontSize: '16px',
+    borderRadius: '10px',
+    border: '1px solid #ccc',
+    resize: 'vertical',
+    marginTop: '10px',
+  };
+
+  const searchBarStyle = {
+    padding: '15px',
+    fontSize: '18px',
+    width: '730px',
+    maxWidth: '80%',
+    borderRadius: '10px',
+    border: '2px solid #aaa',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    marginTop: '10px',
+  };
+
+  const inputWrapperStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: '20px',
   };
 
   return (
-    <div className="container text-center mt-4">
-      <h1>Falacy Detection in Speech</h1>
-      <div className="form-group">
-        <textarea
-          className="form-control"
-          rows="6"
-          placeholder="Paste your text here..."
-          value={text}
-          onChange={handleChange}
-        />
+    <div style={containerStyle}>
+      <div style={buttonContainerStyle}>
+        <button
+          style={buttonStyle}
+          onClick={() => setInputType('Video')}
+          onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
+          onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
+        >
+          Video
+        </button>
+        <button
+          style={buttonStyle}
+          onClick={() => setInputType('Text')}
+          onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
+          onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
+        >
+          Enter your Text
+        </button>
+        <button
+          style={buttonStyle}
+          onClick={() => setInputType('Upload a PDF')}
+          onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
+          onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
+        >
+          Upload a PDF
+        </button>
       </div>
-      <button className="btn btn-primary" onClick={handleDetectClick} disabled={isLoading}>
-        {isLoading ? "Detecting..." : "Detect Fallacies"}
-      </button>
-      <div className="mt-4">
-        <h4>Detected Fallacies:</h4>
-        <ul>
-          {fallacies.map((fallacy, index) => (
-            <li key={index}>{fallacy}</li>
-          ))}
-        </ul>
-      </div>
+
+      {inputType === 'Upload a PDF' && <PDFDropper pdfInput={pdfInput} setPdfInput={setPdfInput} />}
+
+      {inputType === 'Text' && (
+        <div style={inputWrapperStyle}>
+          <textarea
+            placeholder="Enter your text here..."
+            rows={10}
+            cols={120}
+            style={textAreaStyle}
+            value={textInput}
+            onChange={handleTextInputChange}
+          />
+        </div>
+      )}
+
+      {inputType === 'Video' && (
+        <div style={inputWrapperStyle}>
+          <input
+            type="text"
+            placeholder="Search for a video..."
+            style={searchBarStyle}
+            value={videoInput}
+            onChange={handleVideoInputChange}
+          />
+        </div>
+      )}
+
+      <h3>PDF Input: {pdfInput}</h3>
+      <h3>Video Input: {videoInput}</h3>
+      <h3>Text Input: {textInput}</h3>
     </div>
   );
 };

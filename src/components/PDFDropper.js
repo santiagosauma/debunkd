@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import pdfToText from 'react-pdftotext';
 
-/// extracted text is kept in extractedtext
-const PDFDropper = () => {
+const PDFDropper = ({ pdfInput, setPdfInput }) => {
   const [file, setFile] = useState(null);
-  const [extractedText, setExtractedText] = useState('');
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -33,8 +31,10 @@ const PDFDropper = () => {
 
   const extractText = (pdfFile) => {
     pdfToText(pdfFile)
-      .then((text) => setExtractedText(text))
-      .catch((error) => console.error('Failed to extract text from PDF:', error));
+      .then((text) => setPdfInput(text)) // Use setPdfInput from props
+      .catch((error) =>
+        console.error('Failed to extract text from PDF:', error)
+      );
   };
 
   return (
@@ -51,9 +51,10 @@ const PDFDropper = () => {
           backgroundColor: '#e9ecef',
           color: '#495057',
           cursor: 'pointer',
-          width: '40%',
+          width: '580px',
           height: '200px',
           margin: '0 auto',
+          marginTop: '27px',
           boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
         }}
       >
@@ -81,7 +82,8 @@ const PDFDropper = () => {
           {file ? file.name : 'Drag and drop your PDF here\nOr click here'}
         </label>
       </header>
-      {extractedText && (
+
+      {(pdfInput && false) && (
         <div
           style={{
             marginTop: '20px',
@@ -95,7 +97,7 @@ const PDFDropper = () => {
           }}
         >
           <h3>Extracted Text:</h3>
-          <p>{extractedText}</p>
+          <p>{pdfInput}</p>
         </div>
       )}
     </div>

@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+
+/* App.css */
+.header-container {
+  padding: 20px;
+}
+
+.header-title {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.header-subtitle {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: #555;
+}
