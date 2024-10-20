@@ -1,55 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/DebunkedContent.css'; // Ensure this path matches your project structure
+import '../styles/DebunkedContent.css';
 
 const buttonStyle = {
   position: 'fixed',
-  backgroundColor: 'transparent', // No background
+  backgroundColor: 'transparent',
   border: 'none',
   cursor: 'pointer',
-  fontSize: '32px', // Bigger size for the arrow
-  color: '#007bff', // Blue color for the arrow
+  fontSize: '32px',
+  color: '#007bff',
   fontWeight: 'bold',
   padding: '0',
   lineHeight: '1',
 };
-/*const statementsData = [
-  {
-    statement: "Vaccines cause autism.",
-    isAccepted: false, // Refuted
-    links: [
-      { url: "https://www.cdc.gov", title: "CDC: Vaccine Information" },
-      { url: "https://www.who.int", title: "WHO: Immunization Facts" },
-      { url: "https://www.nih.gov", title: "NIH: Vaccine Safety Studies" },
-      { url: "https://www.healthline.com", title: "Debunking Vaccine Myths" },
-      { url: "https://sciencebasedmedicine.org", title: "No Evidence Linking Vaccines to Autism" }
-    ],
-    reasoning: "Multiple studies and public health organizations have confirmed there is no link between vaccines and autism. Spreading this misinformation can lead to reduced immunization rates, increasing the risk of preventable disease outbreaks."
-  },
-  {
-    statement: "Washing hands prevents the spread of diseases.",
-    isAccepted: true, // Accepted
-    links: [
-      { url: "https://www.who.int", title: "WHO: Hand Hygiene Facts" },
-      { url: "https://www.cdc.gov", title: "CDC: Clean Hands Save Lives" },
-      { url: "https://www.nih.gov", title: "NIH: Handwashing Research" },
-      { url: "https://www.healthline.com", title: "Benefits of Hand Hygiene" },
-      { url: "https://www.mayoclinic.org", title: "Mayo Clinic: Handwashing Guide" }
-    ],
-    reasoning: "Scientific evidence confirms that washing hands with soap and water can significantly reduce the spread of infectious diseases. It is a simple yet highly effective public health measure."
-  },
-  {
-    statement: "5G technology spreads COVID-19.",
-    isAccepted: false, // Refuted
-    links: [
-      { url: "https://www.bbc.com", title: "5G and COVID-19 Misinformation" },
-      { url: "https://www.who.int", title: "WHO: COVID-19 Facts" },
-      { url: "https://www.cdc.gov", title: "CDC: Virus Transmission Overview" },
-      { url: "https://www.nature.com", title: "Scientific Research on 5G Safety" },
-      { url: "https://www.wired.com", title: "The 5G-COVID-19 Conspiracy Debunked" }
-    ],
-    reasoning: "There is no scientific evidence linking 5G networks to the spread of COVID-19. Believing in this falsehood has led to dangerous behavior, including the destruction of infrastructure and public health risks."
-  }
-];*/
 
 const DebunkedContent = ({setShowResult, textInput, pdfInput, videoInput, inputType}) => {
   const [statementsData, setStatementsData] = useState([])
