@@ -43,7 +43,6 @@ const HomePage = () => {
 
   return (
     <div>
-       <ImproveSpeechContent markdownContent = {"hola"}/>
       <InfoHomePage />
     </div>
   );
