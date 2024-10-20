@@ -1,9 +1,53 @@
+import { input } from 'framer-motion/client';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useState } from 'react';
+import { useEffect } from 'react';
+// <ImproveSpeechContent markdownContent = {markdownContent} setShowResult = {setShowResult} textInput = {textInput} pdfInput = {pdfInput} videoInput = {videoInput} inputType = {inputType}/>
+const ImproveSpeechContent = ({ markdownContent, setShowResult, textInput, pdfInput, videoInput, inputType}) => {
 
-const ImproveSpeechContent = ({ markdownContent, setShowResult}) => {
+  const [contentToShow, setContentToShow] = useState("")
+  const handleDetectClick = () => {
+    const url = "http://localhost:5000/howToImprove";
+    //const text = "hola como estas"
+    var text = "";
+    if(inputType === "Text"){
+        text = textInput;
+    }
+    else if(inputType === "Video"){
+        text = pdfInput;
+    }
+    else {
+        text = videoInput;
+    }
+    const jsonData = JSON.stringify({ text });
+  
+    // Enviar el texto al backend Flask
+    fetch(url, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: jsonData,
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        setContentToShow(response.howToImprove);
+        console.log(response.howToImprove)
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+
+  useEffect(() => {
+    handleDetectClick()
+  }, []);
+
   const containerStyle = {
     backgroundColor: '#f5f5f5',
     padding: '20px',
@@ -65,7 +109,7 @@ const ImproveSpeechContent = ({ markdownContent, setShowResult}) => {
           },
         }}
       >
-        {markdownContent}
+        {contentToShow}
       </ReactMarkdown>
     </div>
   );

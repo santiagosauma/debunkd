@@ -168,7 +168,7 @@ greet();
 
       {showResult && (
         <div>
-          <ImproveSpeechContent markdownContent = {markdownContent} setShowResult = {setShowResult}/>
+          <ImproveSpeechContent markdownContent = {markdownContent} setShowResult = {setShowResult} textInput = {textInput} pdfInput = {pdfInput} videoInput = {videoInput} inputType = {inputType}/>
         <div style={inputWrapperStyle}>
           <h3>PDF Input: {pdfInput}</h3>
           <h3>Video Input: {videoInput}</h3>
