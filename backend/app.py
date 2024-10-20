@@ -1,13 +1,10 @@
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import re
-
 from improvement import generate_recommendations
 from scripts.getCustomWordCloud import generate_wordcloud
 from scripts import getKeyWords
 from scripts import getTranscript
-
 
 app = Flask(__name__)
 CORS(app)
@@ -15,7 +12,7 @@ CORS(app)
 statements_data = [
     {
         "statement": "Vaccines cause autism.",
-        "isAccepted": False,  # Refuted
+        "isAccepted": False,
         "links": [
             {"url": "https://www.cdc.gov", "title": "CDC: Vaccine Information"},
             {"url": "https://www.who.int", "title": "WHO: Immunization Facts"},
@@ -31,7 +28,7 @@ statements_data = [
     },
     {
         "statement": "Washing hands prevents the spread of diseases.",
-        "isAccepted": True,  # Accepted
+        "isAccepted": True,
         "links": [
             {"url": "https://www.who.int", "title": "WHO: Hand Hygiene Facts"},
             {"url": "https://www.cdc.gov", "title": "CDC: Clean Hands Save Lives"},
@@ -46,7 +43,7 @@ statements_data = [
     },
     {
         "statement": "5G technology spreads COVID-19.",
-        "isAccepted": False,  # Refuted
+        "isAccepted": False,
         "links": [
             {"url": "https://www.bbc.com", "title": "5G and COVID-19 Misinformation"},
             {"url": "https://www.who.int", "title": "WHO: COVID-19 Facts"},
@@ -84,7 +81,7 @@ def detect_fallacies_route():
         return jsonify({'fallacies': fallacies})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-    
+
 @app.route('/generate_wordcloud', methods=['POST'])
 def generate_wordcloud_route():
     try:
@@ -99,66 +96,47 @@ def generate_wordcloud_route():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
 @app.route('/getKeyWords', methods=['POST'])
 def get_keywords_route():
     try:
         data = request.get_json()
         text = data.get('text', "")
         keywords = getKeyWords.getKeyWords(text)
-        print("hello")
-        print(keywords)
         return jsonify({'fallacies': keywords})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-    
+
 @app.route('/howToImprove', methods=['POST'])
 def how_to_improve_route():
     try:
         data = request.get_json()
         text = data.get('text', "")
-        howToImprove = """This is our advice on how to improve first you have to: Sed ut 
-perspiciatis unde omnis iste natus error sit voluptatem accusantium 
-doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore 
-veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam 
-voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia con"""
-        
         howToImprove = generate_recommendations(text)
-      
         return jsonify({'howToImprove': howToImprove})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-
 
 @app.route('/convertToText', methods=['POST'])
 def convert_to_text():
     try:
         data = request.get_json()
-        text = data.get('text', "") 
+        text = data.get('text', "")
         transcript = getTranscript.getTrans(text)
         howToImprove = generate_recommendations(transcript)
         return jsonify({'convertToText': howToImprove})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-    
+
 @app.route('/dangerousStatements', methods=['POST'])
 def dangerous_statements_route():
     try:
         data = request.get_json()
-        text = data.get('text', "") 
-        dangerousStatements = statements_data # create the equivalent of the list I showed you in js so I can fetch it later instead of hardcoding it
+        text = data.get('text', "")
+        dangerousStatements = statements_data
         return jsonify({'dangerousStatements': dangerousStatements})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-    
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
-
-
-
-#
-#
-#
-#
-#
-#
-#

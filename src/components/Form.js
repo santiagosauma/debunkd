@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import PDFDropper from './PDFDropper'; // Assuming you have this component
 import ImproveSpeech from '../pages/ImproveSpeech';
 import ImproveSpeechContent from './ImproveSpeechContent';
-import '../styles/Form.css';
-import DebunkedContent from './DebunkedContent';
 
 const Form = ({ currentSection }) => {
+
   const markdownContent = `
 # Improve Speech Content
 
@@ -25,56 +24,106 @@ greet();
 [Check this link](https://example.com)
 `;
 
+
   const [inputType, setInputType] = useState('');
   const [pdfInput, setPdfInput] = useState('');
   const [videoInput, setVideoInput] = useState('');
   const [textInput, setTextInput] = useState('');
   const [showResult, setShowResult] = useState(false);
-  const [imagePath, setImagePath] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleVideoInputChange = (e) => setVideoInput(e.target.value);
-  const handleTextInputChange = (e) => setTextInput(e.target.value);
-
-  const handleSubmit = async () => {
-    setIsLoading(true);
-
-    try {
-      const response = await fetch('http://localhost:5000/generate_wordcloud', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: textInput }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setImagePath(data.image_path); // Save the image path
-        setShowResult(true); // Show the result
-      } else {
-        console.error(data.error);
-      }
-    } catch (err) {
-      console.error('Failed to generate word cloud:', err);
-    }
-
-    setIsLoading(false); // Stop loading state
+  const handleVideoInputChange = (e) => {
+    setVideoInput(e.target.value);
   };
 
-  
+  const handleTextInputChange = (e) => {
+    setTextInput(e.target.value);
+  };
+
+  const buttonStyle = {
+    backgroundColor: '#d3d3d3',
+    border: 'none',
+    padding: '15px 25px',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    borderRadius: '5px',
+    margin: '0 10px',
+    width: '200px',
+  };
+
+  const containerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
+  };
+
+  const buttonContainerStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '20px',
+  };
+
+  const textAreaStyle = {
+    width: '580px',
+    maxWidth: '800px',
+    height: '230px',
+    padding: '15px',
+    fontSize: '16px',
+    borderRadius: '10px',
+    border: '1px solid #ccc',
+    resize: 'vertical',
+    marginTop: '10px',
+  };
+
+  const searchBarStyle = {
+    padding: '15px',
+    fontSize: '18px',
+    width: '730px',
+    maxWidth: '80%',
+    borderRadius: '10px',
+    border: '2px solid #aaa',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    marginTop: '10px',
+  };
+
+  const inputWrapperStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: '20px',
+  };
+
   return (
-    <div className="form-container">
+    <div style={containerStyle}>
       {!showResult && (
         <>
-          <div className="button-container">
-            {['Video', 'Text', 'Upload a PDF'].map((type) => (
-              <button
-                key={type}
-                className="button"
-                onClick={() => setInputType(type)}
-              >
-                {type}
-              </button>
-            ))}
+          <div style={buttonContainerStyle}>
+            <button
+              style={buttonStyle}
+              onClick={() => setInputType('Video')}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
+              onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
+            >
+              Video
+            </button>
+            <button
+              style={buttonStyle}
+              onClick={() => setInputType('Text')}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
+              onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
+            >
+              Enter your Text
+            </button>
+            <button
+              style={buttonStyle}
+              onClick={() => setInputType('Upload a PDF')}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
+              onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
+            >
+              Upload a PDF
+            </button>
           </div>
 
           {inputType === 'Upload a PDF' && (
@@ -82,10 +131,12 @@ greet();
           )}
 
           {inputType === 'Text' && (
-            <div className="input-wrapper">
+            <div style={inputWrapperStyle}>
               <textarea
                 placeholder="Enter your text here..."
-                className="text-area"
+                rows={10}
+                cols={120}
+                style={textAreaStyle}
                 value={textInput}
                 onChange={handleTextInputChange}
               />
@@ -93,11 +144,11 @@ greet();
           )}
 
           {inputType === 'Video' && (
-            <div className="input-wrapper">
+            <div style={inputWrapperStyle}>
               <input
                 type="text"
                 placeholder="Search for a video..."
-                className="search-bar"
+                style={searchBarStyle}
                 value={videoInput}
                 onChange={handleVideoInputChange}
               />
@@ -105,49 +156,19 @@ greet();
           )}
 
           <button
-            className="button"
-            style={{ marginTop: '20px' }}
-            onClick={handleSubmit}
-            disabled={isLoading}
+            style={{ ...buttonStyle, marginTop: '20px' }}
+            onClick={() => setShowResult(true)}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
+            onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
           >
-            {isLoading ? 'Generating...' : 'Submit'}
+            Submit
           </button>
         </>
       )}
 
-      {(showResult && currentSection === "ImproveSpeech") && (
+      {showResult && (
         <div>
-          <ImproveSpeechContent
-            setShowResult={setShowResult}
-            textInput={textInput}
-            pdfInput={pdfInput}
-            videoInput={videoInput}
-            inputType={inputType}
-          />
-
-          <div className="input-wrapper">
-            <h3>PDF Input: {pdfInput}</h3>
-            <h3>Video Input: {videoInput}</h3>
-            <h3>Text Input: {textInput}</h3>
-          </div>
-
-          {imagePath && (
-            <div className="wordcloud-container">
-              <h2>Your Word Cloud</h2>
-              <img
-                src={imagePath}
-                alt="Word Cloud"
-                style={{ maxWidth: '100%', marginTop: '20px' }}
-              />
-            </div>
-          )}
-        </div>
-      )}
-
-      {(showResult && currentSection === "Debunker") && (
-        <div>
-          <h1 style={{ textAlign: 'center', margin: '20px 0' }}>Dangerous Statements</h1>
-          <DebunkedContent setShowResult = {setShowResult} textInput = {textInput} pdfInput = {pdfInput} videoInput = {videoInput} inputType = {inputType}/>
+          <ImproveSpeechContent markdownContent = {markdownContent} setShowResult = {setShowResult} textInput = {textInput} pdfInput = {pdfInput} videoInput = {videoInput} inputType = {inputType}/>
         <div style={inputWrapperStyle}>
           <h3>PDF Input: {pdfInput}</h3>
           <h3>Video Input: {videoInput}</h3>

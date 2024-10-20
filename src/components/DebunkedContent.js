@@ -101,7 +101,7 @@ useEffect(() => {
 
   const toggleStatement = (index) => {
     const newOpenStates = [...openStatements];
-    newOpenStates[index] = !newOpenStates[index]; // Toggle the state
+    newOpenStates[index] = !newOpenStates[index];
     setOpenStatements(newOpenStates);
   };
 
@@ -152,4 +152,3 @@ useEffect(() => {
 };
 
 export default DebunkedContent;
-// <h1 style={{ textAlign: 'center', margin: '20px 0' }}>Dangerous Statements</h1>
