@@ -143,6 +143,18 @@ def dangerous_statements_route():
         return jsonify({'dangerousStatements': dangerousStatements})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+    
+
+@app.route('/dangerousStatementsVideo', methods=['POST'])
+def dangerous_statements_video_route():
+    try:
+        data = request.get_json()
+        text = data.get('text', "")
+        text = getTranscript.getTrans(text)
+        dangerousStatements = generate_debunk_response(text)
+        return jsonify({'dangerousStatements': dangerousStatements})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
