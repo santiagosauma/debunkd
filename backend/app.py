@@ -5,7 +5,7 @@ from improvement import generate_recommendations
 from scripts.getCustomWordCloud import generate_wordcloud
 from scripts import getKeyWords
 from scripts import getTranscript
-from Debunker import generate_debunk_response  # Aseguramos el import correcto de Debunker
+from Debunker import generate_debunk_response
 
 app = Flask(__name__)
 CORS(app)
@@ -134,13 +134,12 @@ def convert_to_text():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-# Dangerous statements debunking route (Debunker functionality)
 @app.route('/dangerousStatements', methods=['POST'])
 def dangerous_statements_route():
     try:
         data = request.get_json()
         text = data.get('text', "")
-        dangerousStatements = generate_debunk_response(text)  # Call Debunker for dangerous statement detection
+        dangerousStatements = generate_debunk_response(text)
         return jsonify({'dangerousStatements': dangerousStatements})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
