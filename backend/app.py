@@ -4,7 +4,7 @@ from flask_cors import CORS
 import re
 
 from improvement import generate_recommendations
-
+from scripts.getCustomWordCloud import generate_wordcloud
 from scripts import getKeyWords
 from scripts import getTranscript
 
@@ -35,7 +35,21 @@ def detect_fallacies_route():
         return jsonify({'fallacies': fallacies})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+    
+@app.route('/generate_wordcloud', methods=['POST'])
+def generate_wordcloud_route():
+    try:
+        data = request.get_json()
+        text = data.get('text', "")
 
+        # Generate the word cloud and save to React public folder
+        image_path = generate_wordcloud(text)
+
+        # Return the relative path to the image for the frontend
+        return jsonify({'image_path': '/images/wordcloud.png'}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 @app.route('/getKeyWords', methods=['POST'])
 def get_keywords_route():
     try:

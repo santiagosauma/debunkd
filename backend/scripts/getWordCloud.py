@@ -14,6 +14,7 @@ Vice President Harris was on the TV and the local gun store owner said to his au
 I looked around and all I saw were heads nodding in agreement. I heard a few calls of “Yes sir” and “Damn Straight” from the men around me. Even saw the lonely ball cap wearing farmer in the corner raise his drink with a nod. """
 stopwords = set(STOPWORDS)
 
+
 # Define custom color function
 def american_flag_color_func(word, font_size, position, orientation, random_state=None, **kwargs):
     colors = ['#FF0000', '#0000FF']  # Red, White, Blue
