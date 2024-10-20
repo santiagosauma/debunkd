@@ -8,6 +8,7 @@ from improvement import generate_recommendations
 from scripts import getKeyWords
 from scripts import getTranscript
 
+
 app = Flask(__name__)
 CORS(app)
 
