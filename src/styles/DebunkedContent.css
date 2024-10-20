@@ -1,0 +1,112 @@
+/* Container Styling */
+.debunked-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 40px auto;
+    padding: 20px;
+    max-width: 800px;
+    background-color: #f4f4f8;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Individual Statement Card */
+  .statement-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .statement-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Header Section */
+  .statement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8d7da;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .statement-header.open {
+    background-color: #f5c6cb;
+  }
+  
+  .statement-title {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #721c24;
+  }
+  
+  .danger-indicator {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+  
+  /* Statement Content */
+  .statement-content {
+    padding: 15px;
+    border-top: 1px solid #ddd;
+  }
+  
+  /* Evidence Section */
+  .evidence-section p {
+    margin: 0 0 8px;
+    font-weight: bold;
+    color: #34495e;
+  }
+  
+  .evidence-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .evidence-list li {
+    margin: 5px 0;
+  }
+  
+  .evidence-list a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .evidence-list a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Reasoning Text */
+  .reasoning-text {
+    margin-top: 15px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .debunked-container {
+      padding: 15px;
+    }
+  
+    .statement-title {
+      font-size: 1.2rem;
+    }
+  
+    .reasoning-text {
+      font-size: 0.95rem;
+    }
+  }
+  

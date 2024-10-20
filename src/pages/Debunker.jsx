@@ -11,7 +11,7 @@ const Debunker = () => {
         Just select the option you want and continue the truth
       </p>
     </div>
-      <Form/>
+      <Form currentSection = {"Debunker"}/>
     </div>
   );
 };

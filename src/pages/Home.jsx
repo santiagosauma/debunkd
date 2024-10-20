@@ -4,7 +4,7 @@ import InfoHomePage from '../components/InfoHomePage';
 import ImproveSpeechContent from '../components/ImproveSpeechContent';
 import { useState } from 'react';
 import { useEffect } from 'react';
-
+import DebunkedContent from '../components/DebunkedContent';
 
 const HomePage = () => {
   const [response, setResponse] = useState("")
@@ -43,6 +43,7 @@ const HomePage = () => {
 
   return (
     <div>
+      <DebunkedContent/>
       <InfoHomePage />
     </div>
   );
