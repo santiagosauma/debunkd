@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/DebunkedContent.css'; // Ensure this path matches your project structure
 
-const statementsData = [
+/*const statementsData = [
   {
     statement: "Vaccines cause autism.",
     isAccepted: false, // Refuted
@@ -38,12 +38,55 @@ const statementsData = [
     ],
     reasoning: "There is no scientific evidence linking 5G networks to the spread of COVID-19. Believing in this falsehood has led to dangerous behavior, including the destruction of infrastructure and public health risks."
   }
-];
+];*/
 
 const DebunkedContent = () => {
+  const [statementsData, setStatementsData] = useState([])
   const [openStatements, setOpenStatements] = useState(
     Array(statementsData.length).fill(false) // Initialize all statements as closed
   );
+
+
+const handleFetch = () => {
+  const url = "http://localhost:5000/dangerousStatements";
+  //const text = "hola como estas"
+  var text = "empty_text";
+  /*if(inputType === "Text"){
+      text = textInput;
+  }
+  else if(inputType === "Video"){
+      text = videoInput;
+      handleGetAnswerFromVideo()
+      return
+  }
+  else {
+      text = pdfInput;
+  }*/
+
+  const jsonData = JSON.stringify({ text });
+
+  // Enviar el texto al backend Flask
+  fetch(url, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    body: jsonData,
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      setStatementsData(response.dangerousStatements);
+      setOpenStatements(Array(response.dangerousStatements.length).fill(false));
+      console.log(response.dangerousStatements)
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+};
+useEffect(() => {
+  handleFetch()
+}, []);
 
   const toggleStatement = (index) => {
     const newOpenStates = [...openStatements];
