@@ -3,6 +3,7 @@ import PDFDropper from './PDFDropper'; // Assuming you have this component
 import ImproveSpeech from '../pages/ImproveSpeech';
 import ImproveSpeechContent from './ImproveSpeechContent';
 import '../styles/Form.css';
+import DebunkedContent from './DebunkedContent';
 
 const Form = ({ currentSection }) => {
   const markdownContent = `
@@ -114,7 +115,7 @@ greet();
         </>
       )}
 
-      {showResult && (
+      {(showResult && currentSection === "ImproveSpeech") && (
         <div>
           <ImproveSpeechContent
             setShowResult={setShowResult}
@@ -140,6 +141,18 @@ greet();
               />
             </div>
           )}
+        </div>
+      )}
+
+      {(showResult && currentSection === "Debunker") && (
+        <div>
+          <h1 style={{ textAlign: 'center', margin: '20px 0' }}>Dangerous Statements</h1>
+          <DebunkedContent setShowResult = {setShowResult} textInput = {textInput} pdfInput = {pdfInput} videoInput = {videoInput} inputType = {inputType}/>
+        <div style={inputWrapperStyle}>
+          <h3>PDF Input: {pdfInput}</h3>
+          <h3>Video Input: {videoInput}</h3>
+          <h3>Text Input: {textInput}</h3>
+        </div>
         </div>
       )}
     </div>

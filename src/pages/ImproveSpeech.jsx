@@ -11,7 +11,7 @@ const ImproveSpeech = () => {
         Just select the option you want and continue the truth
       </p>
     </div>
-      <Form currentSection = {"Debunker"}/>
+      <Form currentSection = {"ImproveSpeech"}/>
     </div>
   );
 };

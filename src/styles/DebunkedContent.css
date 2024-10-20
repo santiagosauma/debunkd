@@ -24,35 +24,64 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   
-  /* Header Section */
+  /* Header Section - Dynamic Color based on Acceptance */
   .statement-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-    background-color: #f8d7da;
     border-radius: 10px 10px 0 0;
     cursor: pointer;
     transition: background-color 0.2s ease;
   }
   
-  .statement-header.open {
+  /* Refuted (Red) */
+  .statement-card.refuted .statement-header {
+    background-color: #f8d7da;
+  }
+  
+  .statement-card.refuted .statement-header.open {
     background-color: #f5c6cb;
   }
   
+  .statement-card.refuted .statement-title {
+    color: #721c24; /* Dark red text */
+  }
+  
+  /* Accepted (Green) */
+  .statement-card.accepted .statement-header {
+    background-color: #d4edda;
+  }
+  
+  .statement-card.accepted .statement-header.open {
+    background-color: #c3e6cb;
+  }
+  
+  .statement-card.accepted .statement-title {
+    color: #155724; /* Dark green text */
+  }
+  
+  /* Title Styling */
   .statement-title {
     margin: 0;
     font-size: 1.3rem;
-    color: #721c24;
   }
   
-  .danger-indicator {
-    background-color: #dc3545;
-    color: #fff;
+  /* Status Label */
+  .status-label {
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.9rem;
     font-weight: bold;
+    color: #fff;
+  }
+  
+  .status-label.accepted {
+    background-color: #28a745; /* Green */
+  }
+  
+  .status-label.refuted {
+    background-color: #dc3545; /* Red */
   }
   
   /* Statement Content */
