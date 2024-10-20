@@ -5,38 +5,7 @@ import { useEffect } from 'react';
 import { use } from 'framer-motion/client';
 const MyWordCloud = ({ setShowResult, textInput, pdfInput, videoInput, inputType }) => {
 
-  const [contentToShow, setContentToShow] = useState("")
 
-  const handleGetAnswerFromVideo = () => {
-    const url = "http://localhost:5000/convertToText";
-        var text = videoInput
-        const jsonData = JSON.stringify({ text });
-
-        // Enviar el texto al backend Flask
-        fetch(url, {
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: jsonData,
-        })
-        .then((response) => response.json())
-        .then((response) => {
-            setContentToShow(response.convertToText);
-            console.log(response.convertToText)
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-  });
-}
-
-useEffect(() => {
-
-    handleGetAnswerFromVideo()
-
- }, []);
- handleGetAnswerFromVideo()
   const [fallacies, setFallacies] = useState([]);
   const [text, setText] = useState(() => {
     if (inputType === "Text") return textInput;
@@ -44,19 +13,13 @@ useEffect(() => {
     return pdfInput;
  });
 
-    console.log("this is the input type")
-    console.log("Hola")
-    console.log(inputType)
-    console.log(textInput)
-    console.log(videoInput)
-    console.log(pdfInput)
+
 
 
   // Function to generate word frequency from the input string
   const generateWordCloudData = (fallacies) => {
     const wordsArray = fallacies.map(str => str.toLowerCase());
-    console.log("this is to arrau")
-    console.log(wordsArray)
+
     const wordCount = {};
 
     // Count the frequency of each word
@@ -78,9 +41,8 @@ useEffect(() => {
   const handleDetectClick = (text) => {
     const url = "http://localhost:5000/getKeyWords";
     //const text = "hola como estas"
-    const jsonData = JSON.stringify({ text: text === "" ? contentToShow : text });
-    console.log("this is the content to show")
-    console.log(contentToShow)
+    const jsonData = JSON.stringify({ text: text === "" ? text : text });
+
 
     // Enviar el texto al backend Flask
     fetch(url, {
@@ -94,7 +56,6 @@ useEffect(() => {
       .then((response) => response.json())
       .then((response) => {
         setFallacies(response.fallacies);
-        console.log(response.fallacies)
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -111,8 +72,6 @@ useEffect(() => {
     handleDetectClick(text)
   }, []);
 
-  console.log("content 2 Show")
-  console.log(contentToShow)
   return (
     <WordCloud
       words={words}
