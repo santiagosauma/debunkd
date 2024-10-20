@@ -5,6 +5,7 @@ from improvement import generate_recommendations
 from scripts.getCustomWordCloud import generate_wordcloud
 from scripts import getKeyWords
 from scripts import getTranscript
+from Debunker import generate_debunk_response  # Aseguramos el import correcto de Debunker
 
 app = Flask(__name__)
 CORS(app)
@@ -58,6 +59,7 @@ statements_data = [
     }
 ]
 
+# Fallacy detection (optional functionality, depending on your requirements)
 def detect_fallacies(text):
     fallacies = []
     if re.search(r"\b(appeal to authority)\b", text, re.IGNORECASE):
@@ -82,6 +84,7 @@ def detect_fallacies_route():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
+# Wordcloud generation (optional functionality)
 @app.route('/generate_wordcloud', methods=['POST'])
 def generate_wordcloud_route():
     try:
@@ -97,6 +100,7 @@ def generate_wordcloud_route():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
+# Keywords extraction
 @app.route('/getKeyWords', methods=['POST'])
 def get_keywords_route():
     try:
@@ -107,6 +111,7 @@ def get_keywords_route():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
+# Improvement suggestions
 @app.route('/howToImprove', methods=['POST'])
 def how_to_improve_route():
     try:
@@ -117,6 +122,7 @@ def how_to_improve_route():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
+# Convert media (text, video, etc.) to transcript and improve it
 @app.route('/convertToText', methods=['POST'])
 def convert_to_text():
     try:
@@ -128,12 +134,13 @@ def convert_to_text():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
+# Dangerous statements debunking route (Debunker functionality)
 @app.route('/dangerousStatements', methods=['POST'])
 def dangerous_statements_route():
     try:
         data = request.get_json()
         text = data.get('text', "")
-        dangerousStatements = statements_data
+        dangerousStatements = generate_debunk_response(text)  # Call Debunker for dangerous statement detection
         return jsonify({'dangerousStatements': dangerousStatements})
     except Exception as e:
         return jsonify({'error': str(e)}), 400

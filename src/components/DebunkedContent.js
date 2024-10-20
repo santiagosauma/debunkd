@@ -22,23 +22,10 @@ const DebunkedContent = ({setShowResult, textInput, pdfInput, videoInput, inputT
 
 const handleFetch = () => {
   const url = "http://localhost:5000/dangerousStatements";
-  //const text = "hola como estas"
   var text = "empty_text";
-  /*if(inputType === "Text"){
-      text = textInput;
-  }
-  else if(inputType === "Video"){
-      text = videoInput;
-      handleGetAnswerFromVideo()
-      return
-  }
-  else {
-      text = pdfInput;
-  }*/
 
   const jsonData = JSON.stringify({ text });
 
-  // Enviar el texto al backend Flask
   fetch(url, {
     headers: {
       Accept: "application/json",
