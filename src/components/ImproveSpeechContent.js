@@ -3,28 +3,46 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-const markdownContent = `
-# Improve Speech Content
+const ImproveSpeechContent = ({ markdownContent, setShowResult}) => {
+  const containerStyle = {
+    backgroundColor: '#f5f5f5',
+    padding: '20px',
+    borderRadius: '10px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    maxWidth: '800px',
+    margin: '40px auto',
+    fontFamily: 'Arial, sans-serif',
+    lineHeight: '1.6',
+    position: 'relative',
+  };
 
-This is an example of **bold text** and *italic text*.
+  const codeBlockStyle = {
+    margin: '10px 0',
+    borderRadius: '8px',
+    overflowX: 'auto',
+  };
 
-- First point
-- Second point
-- Third point
+  const buttonStyle = {
+    position: 'absolute',
+    top: '10px',
+    left: '10px',
+    backgroundColor: 'transparent', // No background
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: '32px', // Bigger size for the arrow
+    color: '#007bff', // Blue color for the arrow
+    fontWeight: 'bold',
+    padding: '0',
+    lineHeight: '1',
+  };
 
-Here is a code block:
-
-\`\`\`javascript
-const greet = () => console.log('Hello, Hackathon!');
-greet();
-\`\`\`
-
-[Check this link](https://example.com)
-`;
-
-const ImproveSpeechContent = () => {
   return (
-    <div className="markdown-container">
+    <div style={containerStyle}>
+      {/* Back Arrow Button */}
+      <button style={buttonStyle} onClick={() => setShowResult(false)}>
+        ←
+      </button>
+
       <ReactMarkdown
         components={{
           code({ node, inline, className, children, ...props }) {
@@ -35,6 +53,7 @@ const ImproveSpeechContent = () => {
                 language={match[1]}
                 PreTag="div"
                 {...props}
+                customStyle={codeBlockStyle}
               >
                 {String(children).replace(/\n$/, '')}
               </SyntaxHighlighter>

@@ -1,11 +1,35 @@
 import React, { useState } from 'react';
 import PDFDropper from './PDFDropper'; // Assuming you have this component
+import ImproveSpeech from '../pages/ImproveSpeech';
+import ImproveSpeechContent from './ImproveSpeechContent';
 
-const Form = ({currentSection}) => {
+const Form = ({ currentSection }) => {
+
+  const markdownContent = `
+# Improve Speech Content
+
+This is an example of **bold text** and *italic text*.
+
+- First point
+- Second point
+- Third point
+
+Here is a code block:
+
+\`\`\`javascript
+const greet = () => console.log('Hello, Hackathon!');
+greet();
+\`\`\`
+
+[Check this link](https://example.com)
+`;
+
+
   const [inputType, setInputType] = useState('');
   const [pdfInput, setPdfInput] = useState('');
   const [videoInput, setVideoInput] = useState('');
   const [textInput, setTextInput] = useState('');
+  const [showResult, setShowResult] = useState(false);
 
   const handleVideoInputChange = (e) => {
     setVideoInput(e.target.value);
@@ -73,63 +97,85 @@ const Form = ({currentSection}) => {
 
   return (
     <div style={containerStyle}>
-      <div style={buttonContainerStyle}>
-        <button
-          style={buttonStyle}
-          onClick={() => setInputType('Video')}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
-        >
-          Video
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setInputType('Text')}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
-        >
-          Enter your Text
-        </button>
-        <button
-          style={buttonStyle}
-          onClick={() => setInputType('Upload a PDF')}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
-        >
-          Upload a PDF
-        </button>
-      </div>
+      {!showResult && (
+        <>
+          <div style={buttonContainerStyle}>
+            <button
+              style={buttonStyle}
+              onClick={() => setInputType('Video')}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
+              onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
+            >
+              Video
+            </button>
+            <button
+              style={buttonStyle}
+              onClick={() => setInputType('Text')}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
+              onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
+            >
+              Enter your Text
+            </button>
+            <button
+              style={buttonStyle}
+              onClick={() => setInputType('Upload a PDF')}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
+              onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
+            >
+              Upload a PDF
+            </button>
+          </div>
 
-      {inputType === 'Upload a PDF' && <PDFDropper pdfInput={pdfInput} setPdfInput={setPdfInput} />}
+          {inputType === 'Upload a PDF' && (
+            <PDFDropper pdfInput={pdfInput} setPdfInput={setPdfInput} />
+          )}
 
-      {inputType === 'Text' && (
-        <div style={inputWrapperStyle}>
-          <textarea
-            placeholder="Enter your text here..."
-            rows={10}
-            cols={120}
-            style={textAreaStyle}
-            value={textInput}
-            onChange={handleTextInputChange}
-          />
-        </div>
+          {inputType === 'Text' && (
+            <div style={inputWrapperStyle}>
+              <textarea
+                placeholder="Enter your text here..."
+                rows={10}
+                cols={120}
+                style={textAreaStyle}
+                value={textInput}
+                onChange={handleTextInputChange}
+              />
+            </div>
+          )}
+
+          {inputType === 'Video' && (
+            <div style={inputWrapperStyle}>
+              <input
+                type="text"
+                placeholder="Search for a video..."
+                style={searchBarStyle}
+                value={videoInput}
+                onChange={handleVideoInputChange}
+              />
+            </div>
+          )}
+
+          <button
+            style={{ ...buttonStyle, marginTop: '20px' }}
+            onClick={() => setShowResult(true)}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = '#bbb')}
+            onMouseLeave={(e) => (e.target.style.backgroundColor = '#d3d3d3')}
+          >
+            Submit
+          </button>
+        </>
       )}
 
-      {inputType === 'Video' && (
+      {showResult && (
+        <div>
+          <ImproveSpeechContent markdownContent = {markdownContent} setShowResult = {setShowResult}/>
         <div style={inputWrapperStyle}>
-          <input
-            type="text"
-            placeholder="Search for a video..."
-            style={searchBarStyle}
-            value={videoInput}
-            onChange={handleVideoInputChange}
-          />
+          <h3>PDF Input: {pdfInput}</h3>
+          <h3>Video Input: {videoInput}</h3>
+          <h3>Text Input: {textInput}</h3>
+        </div>
         </div>
       )}
-
-      <h3>PDF Input: {pdfInput}</h3>
-      <h3>Video Input: {videoInput}</h3>
-      <h3>Text Input: {textInput}</h3>
     </div>
   );
 };
