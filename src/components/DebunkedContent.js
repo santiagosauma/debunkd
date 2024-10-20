@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/DebunkedContent.css'; // Ensure this path matches your project structure
 
+const buttonStyle = {
+  position: 'fixed',
+  backgroundColor: 'transparent', // No background
+  border: 'none',
+  cursor: 'pointer',
+  fontSize: '32px', // Bigger size for the arrow
+  color: '#007bff', // Blue color for the arrow
+  fontWeight: 'bold',
+  padding: '0',
+  lineHeight: '1',
+};
 /*const statementsData = [
   {
     statement: "Vaccines cause autism.",
@@ -40,7 +51,7 @@ import '../styles/DebunkedContent.css'; // Ensure this path matches your project
   }
 ];*/
 
-const DebunkedContent = () => {
+const DebunkedContent = ({setShowResult, textInput, pdfInput, videoInput, inputType}) => {
   const [statementsData, setStatementsData] = useState([])
   const [openStatements, setOpenStatements] = useState(
     Array(statementsData.length).fill(false) // Initialize all statements as closed
@@ -96,6 +107,10 @@ useEffect(() => {
 
   return (
     <div className="debunked-container">
+      <button style={buttonStyle} onClick={() => setShowResult(false)}>
+        ←
+      </button>
+      <br></br>
       {statementsData.map((item, index) => (
         <div
           key={index}
