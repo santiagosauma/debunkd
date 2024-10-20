@@ -6,6 +6,7 @@ import re
 from improvement import generate_recommendations
 
 from scripts import getKeyWords
+from scripts import getTranscript
 
 app = Flask(__name__)
 CORS(app)
@@ -60,6 +61,18 @@ voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia con"""
         howToImprove = generate_recommendations(text)
       
         return jsonify({'howToImprove': howToImprove})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@app.route('/convertToText', methods=['POST'])
+def convert_to_text():
+    try:
+        data = request.get_json()
+        text = data.get('text', "") 
+        transcript = getTranscript.getTrans(text)
+      
+        return jsonify({'convertToText': transcript})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
     
