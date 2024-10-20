@@ -17,10 +17,10 @@ const ImproveSpeechContent = ({ markdownContent, setShowResult, textInput, pdfIn
         text = textInput;
     }
     else if(inputType === "Video"){
-        text = pdfInput;
+        text = videoInput;
     }
     else {
-        text = videoInput;
+        text = pdfInput;
     }
     const jsonData = JSON.stringify({ text });
   
