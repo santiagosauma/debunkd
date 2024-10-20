@@ -1,71 +1,21 @@
 import React, { useState } from 'react';
 import PDFDropper from './PDFDropper'; 
-import ImproveSpeech from '../pages/ImproveSpeech';
 import ImproveSpeechContent from './ImproveSpeechContent';
-import '../styles/Form.css';
 import DebunkedContent from './DebunkedContent';
+import '../styles/Form.css';
 
 const Form = ({ currentSection }) => {
-  const markdownContent = `
-# Improve Speech Content
-
-This is an example of **bold text** and *italic text*.
-
-- First point
-- Second point
-- Third point
-
-Here is a code block:
-
-\`\`\`javascript
-const greet = () => console.log('Hello, Hackathon!');
-greet();
-\`\`\`
-
-[Check this link](https://example.com)
-`;
-
   const [inputType, setInputType] = useState('');
   const [pdfInput, setPdfInput] = useState('');
   const [videoInput, setVideoInput] = useState('');
   const [textInput, setTextInput] = useState('');
   const [showResult, setShowResult] = useState(false);
-  const [imagePath, setImagePath] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
-
-  const handleVideoInputChange = (e) => setVideoInput(e.target.value);
   const handleTextInputChange = (e) => setTextInput(e.target.value);
+  const handleVideoInputChange = (e) => setVideoInput(e.target.value);
 
-  const handleSubmit = async () => {
-    if (currentSection === 'Debunker') {
-      // Generate word cloud only if the current section is "Debunker"
-      setIsLoading(true);
-      try {
-        const response = await fetch('http://localhost:5000/generate_wordcloud', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: textInput }),
-        });
+  const handleSubmit = () => setShowResult(true);
 
-        const data = await response.json();
-        if (response.ok) {
-          setImagePath(data.image_path); // Save the image path
-          setShowResult(true); // Show the result
-        } else {
-          console.error(data.error);
-        }
-      } catch (err) {
-        console.error('Failed to generate word cloud:', err);
-      }
-      setIsLoading(false); // Stop loading state
-    } else {
-      // If the section is not "Debunker", just show the result without generating a word cloud
-      setShowResult(true);
-    }
-  };
-
-  
   return (
     <div className="form-container">
       {!showResult && (
@@ -109,18 +59,13 @@ greet();
             </div>
           )}
 
-          <button
-            className="button"
-            style={{ marginTop: '20px' }}
-            onClick={handleSubmit}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Generating...' : 'Submit'}
+          <button className="button" style={{ marginTop: '20px' }} onClick={handleSubmit}>
+            Submit
           </button>
         </>
       )}
 
-{showResult && currentSection === 'ImproveSpeech' && (
+      {showResult && currentSection === 'ImproveSpeech' && (
         <ImproveSpeechContent
           setShowResult={setShowResult}
           textInput={textInput}
@@ -134,21 +79,8 @@ greet();
         <DebunkedContent
           setShowResult={setShowResult}
           textInput={textInput}
-          pdfInput={pdfInput}
-          videoInput={videoInput}
           inputType={inputType}
         />
-      )}
-
-      {showResult && currentSection === 'Debunker' && imagePath && (
-        <div className="wordcloud-container">
-          <h2>Your Word Cloud</h2>
-          <img
-            src={imagePath}
-            alt="Word Cloud"
-            style={{ maxWidth: '100%', marginTop: '20px' }}
-          />
-        </div>
       )}
     </div>
   );

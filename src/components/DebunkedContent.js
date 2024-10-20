@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/DebunkedContent.css';
 
 const buttonStyle = {
   position: 'absolute',
-  backgroundColor: 'transparent', // No background
+  backgroundColor: 'transparent',
   border: 'none',
   cursor: 'pointer',
   fontSize: '32px',
@@ -13,117 +13,58 @@ const buttonStyle = {
   lineHeight: '1',
 };
 
-/*const statementsData = [
-  {
-    statement: "Vaccines cause autism.",
-    isAccepted: false, // Refuted
-    links: [
-      { url: "https://www.cdc.gov", title: "CDC: Vaccine Information" },
-      { url: "https://www.who.int", title: "WHO: Immunization Facts" },
-      { url: "https://www.nih.gov", title: "NIH: Vaccine Safety Studies" },
-      { url: "https://www.healthline.com", title: "Debunking Vaccine Myths" },
-      { url: "https://sciencebasedmedicine.org", title: "No Evidence Linking Vaccines to Autism" }
-    ],
-    reasoning: "Multiple studies and public health organizations have confirmed there is no link between vaccines and autism. Spreading this misinformation can lead to reduced immunization rates, increasing the risk of preventable disease outbreaks."
-  },
-  {
-    statement: "Washing hands prevents the spread of diseases.",
-    isAccepted: true, // Accepted
-    links: [
-      { url: "https://www.who.int", title: "WHO: Hand Hygiene Facts" },
-      { url: "https://www.cdc.gov", title: "CDC: Clean Hands Save Lives" },
-      { url: "https://www.nih.gov", title: "NIH: Handwashing Research" },
-      { url: "https://www.healthline.com", title: "Benefits of Hand Hygiene" },
-      { url: "https://www.mayoclinic.org", title: "Mayo Clinic: Handwashing Guide" }
-    ],
-    reasoning: "Scientific evidence confirms that washing hands with soap and water can significantly reduce the spread of infectious diseases. It is a simple yet highly effective public health measure."
-  },
-  {
-    statement: "5G technology spreads COVID-19.",
-    isAccepted: false, // Refuted
-    links: [
-      { url: "https://www.bbc.com", title: "5G and COVID-19 Misinformation" },
-      { url: "https://www.who.int", title: "WHO: COVID-19 Facts" },
-      { url: "https://www.cdc.gov", title: "CDC: Virus Transmission Overview" },
-      { url: "https://www.nature.com", title: "Scientific Research on 5G Safety" },
-      { url: "https://www.wired.com", title: "The 5G-COVID-19 Conspiracy Debunked" }
-    ],
-    reasoning: "There is no scientific evidence linking 5G networks to the spread of COVID-19. Believing in this falsehood has led to dangerous behavior, including the destruction of infrastructure and public health risks."
-  }
-];*/
+const DebunkedContent = ({ setShowResult, textInput, inputType }) => {
+  const [statementsData, setStatementsData] = useState([]);
+  const [openStatements, setOpenStatements] = useState([]);
+  const [/*imageVisible*/, setImageVisible] = useState(false);
+  const [loading, setLoading] = useState(false); // Track loading state
 
-const DebunkedContent = ({setShowResult, textInput, pdfInput, videoInput, inputType}) => {
-  console.log("got here")
-  const [statementsData, setStatementsData] = useState([])
-  const [openStatements, setOpenStatements] = useState(
-    Array(statementsData.length).fill(false) // Initialize all statements as closed
-  );
+  /*
+  const generateWordCloud = useCallback(async () => {
+    try {
+      console.log('Generating word cloud...');
+      setLoading(true); // Start loading state
 
-const handleGetAnswerFromVideo = () =>{
-  const url = "http://localhost:5000/dangerousStatementsVideo";
-  const text = videoInput
+      await fetch('http://localhost:5000/generate_wordcloud', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: textInput }),
+      });
 
-  const jsonData = JSON.stringify({ text });
+      console.log('Word cloud generation complete.');
+      setImageVisible(true); // Enable image display after generation
+    } catch (error) {
+      console.error('Failed to generate word cloud:', error);
+    } finally {
+      setLoading(false); // Stop loading state
+    }
+  }, [textInput]);
+  */
 
-  // Enviar el texto al backend Flask
-  fetch(url, {
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-    body: jsonData,
-  })
-    .then((response) => response.json())
-    .then((response) => {
-      console.log("this is the fetched data")
-      console.log(response.dangerousStatements)
-      setStatementsData(response.dangerousStatementsVideo);
-      setOpenStatements(Array(response.dangerousStatementsVideo.length).fill(false));
-      console.log(response.dangerousStatementsVideo)
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-}
-const handleFetch = () => {
-  const url = "http://localhost:5000/dangerousStatements";
-  var text = "empty_text";
-  if(inputType === "Text"){
-      text = textInput;
-  }
-  else if(inputType === "Video"){
-      text = videoInput;
-      handleGetAnswerFromVideo()
-      return
-  }
-  else {
-      text = pdfInput;
-  }
+  const handleFetchStatements = useCallback(async () => {
+    try {
+      const response = await fetch('http://localhost:5000/dangerousStatements', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: textInput }),
+      });
 
-  const jsonData = JSON.stringify({ text });
+      const data = await response.json();
+      console.log('Statements Data:', data.dangerousStatements);
+      setStatementsData(data.dangerousStatements);
+      setOpenStatements(Array(data.dangerousStatements.length).fill(false));
+    } catch (error) {
+      console.error('Error fetching statements:', error);
+    }
+  }, [textInput]);
 
-  fetch(url, {
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-    body: jsonData,
-  })
-    .then((response) => response.json())
-    .then((response) => {
-      setStatementsData(response.dangerousStatements);
-      setOpenStatements(Array(response.dangerousStatements.length).fill(false));
-      console.log(response.dangerousStatements)
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-};
-useEffect(() => {
-  handleFetch()
-}, []);
+  useEffect(() => {
+    handleFetchStatements(); // Fetch dangerous statements
+    // generateWordCloud(); // Generate word cloud only on mount (commented out)
+  }, [handleFetchStatements /*, generateWordCloud*/]);
 
   const toggleStatement = (index) => {
     const newOpenStates = [...openStatements];
@@ -136,7 +77,25 @@ useEffect(() => {
       <button style={buttonStyle} onClick={() => setShowResult(false)}>
         ←
       </button>
-      <br></br>
+
+      {/* Word Cloud Image Section (Commented Out)
+      {loading ? (
+        <p>Generating word cloud...</p>
+      ) : (
+        imageVisible && (
+          <div className="wordcloud-container">
+            <h2>Your Word Cloud</h2>
+            <img
+              src="/images/wordcloud.png"
+              alt="Word Cloud"
+              style={{ maxWidth: '100%', marginTop: '20px' }}
+              onLoad={() => console.log('Image loaded successfully')}
+            />
+          </div>
+        )
+      )} */}
+
+      {/* Statements Data */}
       {statementsData.map((item, index) => (
         <div
           key={index}
@@ -146,7 +105,9 @@ useEffect(() => {
             className={`statement-header ${openStatements[index] ? 'open' : ''}`}
             onClick={() => toggleStatement(index)}
           >
-            <h3 className="statement-title">Statement {index + 1}: {item.statement}</h3>
+            <h3 className="statement-title">
+              Statement {index + 1}: {item.statement}
+            </h3>
             <span className={`status-label ${item.isAccepted ? 'accepted' : 'refuted'}`}>
               {item.isAccepted ? 'Accepted' : 'Refuted'}
             </span>
